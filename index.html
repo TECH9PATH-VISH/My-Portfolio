@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Portfolio of a Full Stack Developer specializing in high-performance cyber-minimalist web experiences.">
+    <title>Developer Portfolio | Cyber-Minimalist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Glassmorphic Aurora Ambient Background -->
+    <div class="aurora-bg">
+        <div class="aurora-blob blob-blue"></div>
+        <div class="aurora-blob blob-emerald"></div>
+        <div class="aurora-blob blob-violet"></div>
+        <div class="aurora-overlay"></div>
+    </div>
+
+    <!-- Interactive Flashlight Grid Background -->
+    <div class="flashlight-grid"></div>
+
+    <!-- Neon Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Header Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" aria-label="Home">
+                <div class="logo-icon">
+                    <span>V</span>
+                </div>
+                <div class="logo-text">VISHAL KUMAR <span>SINGH</span></div>
+            </a>
+
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#education" class="nav-link">Timeline</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#achievements" class="nav-link">Achievements</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <button class="hamburger" id="hamburger-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="hero-subtitle-pre">Dual Student: B.Tech @ BCE Patna & B.S. @ IIT Patna</div>
+                <h1 class="hero-title"><span id="greeting-trigger" class="easter-egg-greeting">Hi</span>, I'm <span>Vishal</span></h1>
+                <div class="hero-subtitle">
+                    <span class="typing-text" id="typing-target"></span>
+                    <span class="typing-cursor"></span>
+                </div>
+                <div class="hero-ctas">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                </div>
+            </div>
+            <div class="hero-image-container">
+                <div class="profile-interactive-wrapper" id="profile-interactive-wrapper">
+                    <!-- Levitating circular core photo -->
+                    <div class="core-photo-container">
+                        <img src="profile.png" alt="Vishal Kumar Singh Profile" class="profile-photo">
+                    </div>
+                    
+                    <!-- Drop Shadow beneath the levitating photo -->
+                    <div class="core-shadow"></div>
+                    
+                    <!-- Concentric Orbital Rings -->
+                    <div class="orbital-container">
+                        <!-- Ring 1 (Outer) -->
+                        <div class="orbital-ring ring-1" id="ring-1">
+                            <div class="orbit-dot dot-1" id="dot-1"></div>
+                        </div>
+                        
+                        <!-- Ring 2 (Middle) -->
+                        <div class="orbital-ring ring-2" id="ring-2">
+                            <div class="orbit-dot dot-2" id="dot-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="hidden" id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-bio">
+            <p class="about-lead">Hi, I'm <span class="highlight-text">Vishal Kumar Singh</span>! I am a full-stack
+                developer and AI enthusiast currently studying at <span class="highlight-text">BCE Patna</span>
+                (B.Tech) and <span class="highlight-text">IIT Patna</span> (BS in AI & Cyber Security).</p>
+
+            <div class="bio-item">
+                <div class="bio-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div class="bio-text">
+                    <strong>What I do:</strong> I build scalable web applications and AI-integrated platforms using
+                    the <span class="highlight-text">MERN stack</span>, Python, Java, and C.
+                </div>
+            </div>
+
+            <div class="bio-item">
+                <div class="bio-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </div>
+                <div class="bio-text">
+                    <strong>What drives me:</strong> I love tackling algorithmic challenges on <span
+                        class="highlight-text">LeetCode</span> and building projects focused on tech transparency,
+                    like <span class="highlight-text">Gate Preparation Tracker</span> and fake news detection.
+                </div>
+            </div>
+
+            <div class="bio-item">
+                <div class="bio-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </div>
+                <div class="bio-text">
+                    <strong>Off the keyboard:</strong> I'm a competitive badminton player and enjoy sketching, and
+                    I'm currently expanding my horizons by learning Japanese.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="hidden" id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="timeline">
+            <!-- Timeline Item 1 -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2025 - 2029</span>
+                    <h4 class="timeline-title">B.S. in Artificial Intelligence & Cyber Security</h4>
+                    <div class="timeline-institution">Indian Institute of Technology (IIT) Patna</div>
+                    <p class="timeline-desc">Concurrent degree program specializing in modern machine learning
+                        methods, data science foundations, network defenses, and cryptographic principles.</p>
+                </div>
+            </div>
+            <!-- Timeline Item 2 -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2025 - 2029</span>
+                    <h4 class="timeline-title">Bachelor of Technology (B.Tech)</h4>
+                    <div class="timeline-institution">Bakhtiyarpur College of Engineering (BCE Patna)</div>
+                    <p class="timeline-desc">Focusing on standard computer science foundations including
+                        algorithms, software engineering lifecycle, databases, and operating systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="hidden" id="skills">
+        <h2 class="section-title">Technical Skills</h2>
+
+        <!-- Categorized Skills Grid -->
+        <div class="skills-grid">
+            <!-- Programming Languages -->
+            <div class="skills-category-card">
+                <h3 class="skills-category-title">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 18l6-6-6-6M8 6L2 12l6 6"></path>
+                    </svg>
+                    Languages
+                </h3>
+                <div class="skills-list">
+                    <span class="skill-badge">Java</span>
+                    <span class="skill-badge">Python</span>
+                    <span class="skill-badge">C</span>
+                    <span class="skill-badge">Dart</span>
+                </div>
+            </div>
+
+            <!-- Frontend Development -->
+            <div class="skills-category-card">
+                <h3 class="skills-category-title">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    Frontend Dev
+                </h3>
+                <div class="skills-list">
+                    <span class="skill-badge">React.js</span>
+                    <span class="skill-badge">Tailwind CSS</span>
+                    <span class="skill-badge">Streamlit</span>
+                </div>
+            </div>
+
+            <!-- Backend Development -->
+            <div class="skills-category-card">
+                <h3 class="skills-category-title">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                    Backend Dev
+                </h3>
+                <div class="skills-list">
+                    <span class="skill-badge">Node.js</span>
+                    <span class="skill-badge">Express.js</span>
+                    <span class="skill-badge">FastAPI</span>
+                </div>
+            </div>
+
+            <!-- Databases -->
+            <div class="skills-category-card">
+                <h3 class="skills-category-title">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+                    </svg>
+                    Databases
+                </h3>
+                <div class="skills-list">
+                    <span class="skill-badge">MongoDB</span>
+                </div>
+            </div>
+
+            <!-- APIs & Integrations -->
+            <div class="skills-category-card">
+                <h3 class="skills-category-title">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    APIs & Integrations
+                </h3>
+                <div class="skills-list">
+                    <span class="skill-badge">Google API</span>
+                </div>
+            </div>
+
+            <!-- Core Concepts & Architecture -->
+            <div class="skills-category-card">
+                <h3 class="skills-category-title">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                    Core Concepts
+                </h3>
+                <div class="skills-list">
+                    <span class="skill-badge">DSA</span>
+                    <span class="skill-badge">OOP</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Projects Section -->
+    <section class="hidden" id="projects">
+        <h2 class="section-title">Selected Projects</h2>
+        <div class="projects-grid">
+            <!-- Project 1: TruthChain -->
+            <article class="project-card">
+                <div class="project-image-wrapper">
+                    <div class="project-image-placeholder">
+                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                        <span>[ TRUTHCHAIN CORE ]</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">TruthChain | Fake News Detection App</h3>
+                    <div class="project-tags">
+                        <span class="tag">React.js</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Hugging Face API</span>
+                        <span class="tag">Tailwind CSS</span>
+                    </div>
+                    <ul class="project-features">
+                        <li>Engineered a full-stack web application designed to counter misinformation by generating a
+                            comprehensive "information nutrition label" for news articles.</li>
+                        <li>Developed a highly responsive frontend user interface using React and Tailwind CSS to
+                            display clarity, bias, and reliability scores.</li>
+                        <li>Architected a robust backend API using FastAPI to handle text processing and seamlessly
+                            integrated the Hugging Face API for advanced natural language processing (NLP) analysis.
+                        </li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://github.com/TECH9PATH-VISH/TruthChain" target="_blank" rel="noopener noreferrer"
+                            class="project-link">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                </path>
+                            </svg>
+                            GitHub Repo
+                        </a>
+                        <a href="https://truthchain.streamlit.app/" target="_blank" rel="noopener noreferrer"
+                            class="project-link project-link-primary">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            View Live Demo
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2: PrepGate -->
+            <article class="project-card">
+                <div class="project-image-wrapper">
+                    <div class="project-image-placeholder">
+                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>[ PREPGATE CORE DATA ]</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">PrepGate | GATE Syllabus Tracker</h3>
+                    <div class="project-tags">
+                        <span class="tag">React.js</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Tailwind CSS</span>
+                        <span class="tag">Framer Motion</span>
+                    </div>
+                    <ul class="project-features">
+                        <li>Engineered a full-stack web application designed to counter "prep-blindness" by providing a
+                            deep, hierarchical tracking matrix for the extensive GATE CSE examination syllabus.</li>
+                        <li>Developed a premium, dark-mode frontend user interface featuring real-time progress metrics
+                            and a custom physics-driven "Animated Data Core" visualization to dynamically map subject
+                            exam weightages.</li>
+                        <li>Architected a robust state-management and backend system utilizing React Context API, local
+                            storage hydration, and JWT authentication to ensure persistent, flicker-free user sessions.
+                        </li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://github.com/TECH9PATH-VISH/PrepGate" target="_blank" rel="noopener noreferrer"
+                            class="project-link">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                </path>
+                            </svg>
+                            GitHub Repo
+                        </a>
+                        <a href="https://tech9path-vish.github.io/PrepGate/" target="_blank" rel="noopener noreferrer"
+                            class="project-link project-link-primary">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            View Live Demo
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Honors & Achievements Section -->
+    <section class="hidden" id="achievements">
+        <h2 class="section-title">Honors & Achievements</h2>
+        <div class="achievements-container">
+            <!-- Achievement 1 -->
+            <div class="achievement-card">
+                <div class="achievement-icon-wrapper">
+                    <svg viewBox="0 0 24 24" class="achievement-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path>
+                        <path d="M12 2a4 4 0 0 0-4 4v5a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z"></path>
+                    </svg>
+                </div>
+                <div class="achievement-content">
+                    <h3 class="achievement-title">1st Place Winner, ByteHack Hackathon | Organized by byte.io Coding
+                        Club</h3>
+                    <p class="achievement-details">Competed as Leader of Team MECHX4 to conceptualize, build, and deploy
+                        a functional prototype within a strict, high-pressure time limit. Collaborated on technical
+                        architecture and debugging, demonstrating rapid problem-solving skills and seamless team
+                        coordination.</p>
+                </div>
+            </div>
+
+            <!-- Achievement 2 -->
+            <div class="achievement-card">
+                <div class="achievement-icon-wrapper">
+                    <svg viewBox="0 0 24 24" class="achievement-icon" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path>
+                        <path d="M12 2a4 4 0 0 0-4 4v5a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z"></path>
+                    </svg>
+                </div>
+                <div class="achievement-content">
+                    <h3 class="achievement-title">1st Position, Science Mela Hackathon | College-Wide Tech Showcase</h3>
+                    <p class="achievement-details">Secured the top prize alongside Team DragonDevz by engineering an
+                        innovative technical solution to a real-world problem. Successfully pitched the project's
+                        technical feasibility and potential impact to a panel of judges and peers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="hidden" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <p class="contact-intro">Let's talk about building something epic. Submit the form below, and the gateway
+                will route your query straight to my inbox.</p>
+
+            <form id="contact-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea id="message" name="message" class="form-control" placeholder="Type your message..."
+                        required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">Send Message</button>
+            </form>
+
+            <div class="social-links">
+                <a href="https://github.com/TECH9PATH-VISH" target="_blank" rel="noopener noreferrer" class="social-link"
+                    aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                        </path>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/vishal-kumar-singh-73947a3a2/" target="_blank" rel="noopener noreferrer" class="social-link"
+                    aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/parsival__0097/" target="_blank" rel="noopener noreferrer" class="social-link"
+                    aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="copyright">
+                &copy; 2026 Vishal Kumar Singh. Built with Vanilla JS & CSS3.
+            </div>
+            <div>[ Cybernetic Interface v1.0.0 ]</div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <!-- Custom Glowing Cursor -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+
+    <!-- Secret Terminal Overlay -->
+    <div class="secret-terminal-overlay" id="secret-terminal-overlay">
+        <div class="secret-terminal-box">
+            <div class="secret-terminal-header">
+                <span class="terminal-title">SECRET_ACCESS_SHELL.EXE</span>
+                <button class="terminal-close-btn" id="terminal-close-top" aria-label="Close Shell">×</button>
+            </div>
+            <div class="secret-terminal-body">
+                <div class="terminal-output">
+                    <span class="system-tag">[System Access Granted]</span> Welcome. Initializing AI & Cyber Security Protocols...
+                </div>
+                <div class="terminal-input-line">
+                    <span>C:\ROOT&gt; </span><span class="terminal-cursor">_</span>
+                </div>
+                <div class="terminal-actions">
+                    <a href="resume.pdf" download class="btn btn-primary" id="download-classified-btn">Download Classified File</a>
+                    <button class="btn btn-secondary" id="terminal-close-bottom">Close Terminal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VS Code-Style Minimap Scrollbar -->
+    <div class="minimap-container" id="minimap-container">
+        <div class="minimap-track" id="minimap-track">
+            <div class="minimap-marker" data-section="hero" title="Hero"></div>
+            <div class="minimap-marker" data-section="education" title="Timeline"></div>
+            <div class="minimap-marker" data-section="projects" title="Projects"></div>
+            <div class="minimap-marker" data-section="contact" title="Contact"></div>
+            <div class="minimap-thumb" id="minimap-thumb"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
