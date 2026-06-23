@@ -12,12 +12,29 @@ document.addEventListener('DOMContentLoaded', () => {
         navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
+    // Close menu when clicking a link & custom smooth scroll with header offset
     links.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.setAttribute('aria-expanded', 'false');
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+
+                    // Calculate offset position (subtracting header height + padding spacing)
+                    const headerOffset = 90;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
         });
     });
 
@@ -200,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7b. VS Code-Style Minimap Scrollbar
+    // 7b. VS Code-Style Minimap Scrollbar (Cached/Optimized)
     const minimapTrack = document.getElementById('minimap-track');
     const minimapThumb = document.getElementById('minimap-thumb');
     const markers = document.querySelectorAll('.minimap-marker');
@@ -212,37 +229,47 @@ document.addEventListener('DOMContentLoaded', () => {
         contact: document.getElementById('contact')
     };
 
-    const updateMarkerPositions = () => {
-        if (!minimapTrack || !minimapThumb) return;
-        const trackHeight = minimapTrack.clientHeight;
-        const thumbHeight = minimapThumb.clientHeight;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    let trackHeight = 0;
+    let thumbHeight = 0;
+    let scrollHeight = 0;
+    let sectionPositions = {};
 
-        if (scrollHeight <= 0) return;
+    const cacheDimensions = () => {
+        if (!minimapTrack || !minimapThumb) return;
+        trackHeight = minimapTrack.clientHeight;
+        thumbHeight = minimapThumb.clientHeight;
+        scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        for (const [id, el] of Object.entries(minimapSections)) {
+            if (el) {
+                // Get absolute Y position of section top relative to document
+                sectionPositions[id] = el.getBoundingClientRect().top + window.scrollY;
+            }
+        }
+    };
+
+    const updateMarkerPositions = () => {
+        if (!minimapTrack || !minimapThumb || scrollHeight <= 0) return;
 
         markers.forEach(marker => {
             const sectionId = marker.getAttribute('data-section');
-            const sectionEl = minimapSections[sectionId];
-            if (sectionEl) {
-                // Get absolute Y position of section top relative to document
-                const sectionTop = sectionEl.getBoundingClientRect().top + window.scrollY;
+            const sectionTop = sectionPositions[sectionId];
+            if (sectionTop !== undefined) {
                 const ratio = Math.max(0, Math.min(1, sectionTop / scrollHeight));
                 // Center the marker where the thumb center would be at this ratio
                 const markerCenterY = ratio * (trackHeight - thumbHeight) + (thumbHeight / 2);
                 marker.style.top = `${markerCenterY}px`;
+                // Store cached coordinate to avoid DOM reads on scroll
+                marker.dataset.centerY = markerCenterY;
             }
         });
     };
 
     const updateThumbPosition = () => {
-        if (!minimapTrack || !minimapThumb) return;
+        if (!minimapTrack || !minimapThumb || scrollHeight <= 0) return;
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+        const scrollPercent = Math.max(0, Math.min(1, scrollTop / scrollHeight));
 
-        const trackHeight = minimapTrack.clientHeight;
-        const thumbHeight = minimapThumb.clientHeight;
-        
         // Position of the thumb (translateY value)
         const thumbTop = scrollPercent * (trackHeight - thumbHeight);
         minimapThumb.style.transform = `translate(-50%, ${thumbTop}px)`;
@@ -251,10 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const thumbBottom = thumbTop + thumbHeight;
 
         markers.forEach(marker => {
-            const markerTopStyle = marker.style.top;
-            if (markerTopStyle) {
-                const markerCenter = parseFloat(markerTopStyle);
-                const markerHeight = marker.clientHeight || 6;
+            const markerCenterYStr = marker.dataset.centerY;
+            if (markerCenterYStr) {
+                const markerCenter = parseFloat(markerCenterYStr);
+                const markerHeight = 6;
                 const markerTop = markerCenter - (markerHeight / 2);
                 const markerBottom = markerCenter + (markerHeight / 2);
 
@@ -283,23 +310,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', onScrollMinimap);
 
-    // Initial calculations
+    // Run cache once and position
+    cacheDimensions();
     updateMarkerPositions();
     updateThumbPosition();
 
     // Recalculate on load/resize/layout shifts
     window.addEventListener('load', () => {
+        cacheDimensions();
         updateMarkerPositions();
         updateThumbPosition();
     });
     window.addEventListener('resize', () => {
+        cacheDimensions();
         updateMarkerPositions();
         updateThumbPosition();
     });
     
     // Periodically run for a short duration after DOM ready to catch lazy images/fonts
-    setTimeout(updateMarkerPositions, 500);
-    setTimeout(updateMarkerPositions, 1500);
+    setTimeout(() => {
+        cacheDimensions();
+        updateMarkerPositions();
+        updateThumbPosition();
+    }, 500);
+    setTimeout(() => {
+        cacheDimensions();
+        updateMarkerPositions();
+        updateThumbPosition();
+    }, 1500);
 
     // Click on track interaction
     if (minimapTrack) {
@@ -376,27 +414,71 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mouseup', stopDrag);
     window.addEventListener('touchend', stopDrag);
 
-    // 8. Custom Glowing Cursor
+    // 8 & 11. Optimized Custom Cursor & Flashlight Glow Tracker (Combined via requestAnimationFrame & Easing)
     const customCursor = document.getElementById('custom-cursor');
-    if (customCursor && window.matchMedia('(pointer: fine)').matches) {
+    const flashlightGlow = document.getElementById('flashlight-glow');
+    if (window.matchMedia('(pointer: fine)').matches) {
         let hasMoved = false;
+        let currentX = 0;
+        let currentY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        let isRunning = false;
+
+        const updateCursorAndFlashlight = () => {
+            const dx = targetX - currentX;
+            const dy = targetY - currentY;
+
+            // Smooth linear interpolation (lerp) for cursor trailing feel
+            if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+                currentX = targetX;
+                currentY = targetY;
+                isRunning = false;
+            } else {
+                currentX += dx * 0.18; // Easing speed factor
+                currentY += dy * 0.18;
+                window.requestAnimationFrame(updateCursorAndFlashlight);
+            }
+
+            if (customCursor) {
+                customCursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+            }
+            if (flashlightGlow) {
+                flashlightGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+            }
+        };
+
         window.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+
             if (!hasMoved) {
-                customCursor.style.display = 'block';
-                document.body.classList.add('has-custom-cursor');
+                currentX = targetX;
+                currentY = targetY;
+                if (customCursor) {
+                    customCursor.style.display = 'block';
+                    document.body.classList.add('has-custom-cursor');
+                }
+                if (flashlightGlow) {
+                    flashlightGlow.style.display = 'block';
+                }
                 hasMoved = true;
             }
-            customCursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+
+            if (!isRunning) {
+                isRunning = true;
+                window.requestAnimationFrame(updateCursorAndFlashlight);
+            }
         });
 
         // Event delegation for clickable/hoverable elements
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('a, button, select, textarea, input, .nav-link, .btn, .project-link, .social-link, .hamburger, [role="button"], .easter-egg-greeting')) {
+            if (customCursor && e.target.closest('a, button, select, textarea, input, .nav-link, .btn, .project-link, .social-link, .hamburger, [role="button"], .easter-egg-greeting')) {
                 customCursor.classList.add('hover');
             }
         });
         document.addEventListener('mouseout', (e) => {
-            if (e.target.closest('a, button, select, textarea, input, .nav-link, .btn, .project-link, .social-link, .hamburger, [role="button"], .easter-egg-greeting')) {
+            if (customCursor && e.target.closest('a, button, select, textarea, input, .nav-link, .btn, .project-link, .social-link, .hamburger, [role="button"], .easter-egg-greeting')) {
                 customCursor.classList.remove('hover');
             }
         });
@@ -427,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 10. 3D Glassmorphic Card Tilt with Glare
+    // 10. 3D Glassmorphic Card Tilt with Glare (Optimized - No Layout Thrashing)
     const cards = document.querySelectorAll('.project-card, .achievement-card');
     cards.forEach(card => {
         // Create glare overlay
@@ -437,39 +519,52 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.overflow = 'hidden';
         card.appendChild(glare);
 
+        let rect = null;
+        let ticking = false;
+
+        card.addEventListener('mouseenter', () => {
+            rect = card.getBoundingClientRect();
+        });
+
         card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
+            if (!rect) return;
+
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const maxTilt = 8; // Max rotation in degrees
-            const rotateX = ((centerY - y) / centerY) * maxTilt;
-            const rotateY = ((x - centerX) / centerX) * maxTilt;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (!rect) return;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const maxTilt = 8; // Max rotation in degrees
+                    const rotateX = ((centerY - y) / centerY) * maxTilt;
+                    const rotateY = ((x - centerX) / centerX) * maxTilt;
 
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            card.style.transition = 'transform 0.05s linear'; // fast tracking transition
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.transition = 'transform 0.05s linear'; // fast tracking transition
 
-            // Update glare position
-            glare.style.opacity = '1';
-            glare.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
-            glare.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+                    // Update glare position
+                    glare.style.opacity = '1';
+                    glare.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
+                    glare.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
 
         card.addEventListener('mouseleave', () => {
+            rect = null;
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             card.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
             glare.style.opacity = '0';
         });
     });
 
-    // 11. Interactive Flashlight Grid Background Tracker
-    window.addEventListener('mousemove', (e) => {
-        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
-    });
+    // (Flashlight Grid Background Tracker logic combined into Section 8 for better performance)
 
     // 12. Easter Egg Terminal Keylogger
     const secretCode = "root";
@@ -631,18 +726,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     */
 
-    // 8. Ambient Parallax Shift Background Effect
+    // 8. Ambient Parallax Shift Background Effect (GPU Optimized)
     const auroraBg = document.querySelector('.aurora-bg');
     if (auroraBg) {
         let ticking = false;
 
         const updateParallax = () => {
             const currentScrollY = window.scrollY;
-            // 0.25 parallax factor: moves 25% of scroll distance
-            const shift = currentScrollY * 0.25; 
-            const bgYValue = 50 - (shift / window.innerHeight) * 100;
-            
-            auroraBg.style.setProperty('--bg-y', `${bgYValue}%`);
+            // 0.1 parallax factor: translates up to 10% of scroll depth
+            const shift = currentScrollY * 0.1; 
+            auroraBg.style.transform = `translate3d(0, ${shift}px, 0)`;
             ticking = false;
         };
 
