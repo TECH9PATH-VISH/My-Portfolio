@@ -141,68 +141,82 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. Interactive Contact Form Submission Simulation
     const contactForm = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
+    const terminalLog = document.getElementById('contact-terminal-log');
+    const logLine1 = document.getElementById('log-line-1');
+    const logLine2 = document.getElementById('log-line-2');
+    const logLine3 = document.getElementById('log-line-3');
 
-    if (contactForm) {
+    if (contactForm && submitBtn && terminalLog) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
             // Temporary disable button and change visual state
             submitBtn.disabled = true;
             submitBtn.textContent = 'TRANSMITTING...';
-            submitBtn.style.background = 'transparent';
-            submitBtn.style.borderColor = 'var(--accent-green)';
-            submitBtn.style.color = 'var(--accent-green)';
-            submitBtn.style.boxShadow = '0 0 15px rgba(0, 255, 135, 0.4)';
 
+            // Reset and show terminal log
+            terminalLog.style.display = 'block';
+            logLine1.textContent = '';
+            logLine2.textContent = '';
+            logLine3.textContent = '';
+
+            // Get form values
+            const nameVal = document.getElementById('name').value;
+            const emailVal = document.getElementById('email').value;
+            const messageVal = document.getElementById('message').value;
+
+            // Line 1 typing effect
             setTimeout(() => {
-                // Change state to successful transmission
+                logLine1.textContent = 'Connecting to secure transmission gateway... OK';
+            }, 400);
+
+            // Line 2 typing effect
+            setTimeout(() => {
+                logLine2.textContent = 'Encrypting cargo message payload (RSA-4096)... DONE';
+            }, 1100);
+
+            // Send actual email via formsubmit.co AJAX endpoint
+            fetch("https://formsubmit.co/ajax/cocavenger3000@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: nameVal,
+                    email: emailVal,
+                    message: messageVal
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                logLine3.textContent = 'Transmission complete. Status code: 202 (ACCEPTED)';
                 submitBtn.textContent = 'SECURELY SENT!';
-                
-                // Show floating notification on success
-                const notification = document.createElement('div');
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.left = '50%';
-                notification.style.transform = 'translateX(-50%) translateY(100px)';
-                notification.style.background = 'rgba(12, 13, 18, 0.9)';
-                notification.style.color = 'var(--accent-green)';
-                notification.style.border = '1px solid var(--accent-green)';
-                notification.style.boxShadow = '0 0 20px rgba(0, 255, 135, 0.2)';
-                notification.style.padding = '16px 32px';
-                notification.style.borderRadius = '8px';
-                notification.style.zIndex = '10000';
-                notification.style.fontFamily = 'var(--font-mono)';
-                notification.style.fontSize = '0.9rem';
-                notification.style.transition = 'all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
-                notification.textContent = 'SYSTEM MESSAGE: Message successfully routed.';
-                
-                document.body.appendChild(notification);
-                
-                // Animate notification in
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(-50%) translateY(0)';
-                }, 100);
+            })
+            .catch(error => {
+                logLine3.textContent = 'Transmission failed. Routing error: 503 (UNAVAILABLE)';
+                submitBtn.textContent = 'FAILED!';
+                console.error('Email transmission failed:', error);
+            });
 
-                // Clear input fields
+            // Clear input fields and restore after delay
+            setTimeout(() => {
                 contactForm.reset();
-
-                // Reset button and notification after delay
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(-50%) translateY(100px)';
-                    notification.style.opacity = '0';
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 500);
-
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Message';
-                    submitBtn.style.background = 'var(--accent-cyan)';
-                    submitBtn.style.borderColor = 'var(--accent-cyan)';
-                    submitBtn.style.color = 'var(--bg-base)';
-                    submitBtn.style.boxShadow = '0 4px 15px rgba(0, 240, 255, 0.2)';
-                }, 4000);
-
-            }, 1500);
+                
+                // Gradually fade out log
+                gsap.to(terminalLog, {
+                    opacity: 0,
+                    duration: 0.8,
+                    onComplete: () => {
+                        terminalLog.style.display = 'none';
+                        terminalLog.style.opacity = 1;
+                        
+                        // Reset button
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Send Message';
+                    }
+                });
+            }, 5500);
         });
     }
 
@@ -414,10 +428,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mouseup', stopDrag);
     window.addEventListener('touchend', stopDrag);
 
-    // 8 & 11. Optimized Custom Cursor & Flashlight Glow Tracker (Combined via requestAnimationFrame & Easing)
-    const customCursor = document.getElementById('custom-cursor');
+    // 8 & 11. Optimized Flashlight Glow Tracker
     const flashlightGlow = document.getElementById('flashlight-glow');
-    if (window.matchMedia('(pointer: fine)').matches) {
+    if (window.matchMedia('(pointer: fine)').matches && flashlightGlow) {
         let hasMoved = false;
         let currentX = 0;
         let currentY = 0;
@@ -425,27 +438,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let targetY = 0;
         let isRunning = false;
 
-        const updateCursorAndFlashlight = () => {
+        const updateFlashlight = () => {
             const dx = targetX - currentX;
             const dy = targetY - currentY;
 
-            // Smooth linear interpolation (lerp) for cursor trailing feel
+            // Smooth linear interpolation (lerp) for flashlight trailing feel
             if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
                 currentX = targetX;
                 currentY = targetY;
                 isRunning = false;
             } else {
-                currentX += dx * 0.18; // Easing speed factor
-                currentY += dy * 0.18;
-                window.requestAnimationFrame(updateCursorAndFlashlight);
+                currentX += dx * 0.15; // Easing speed factor
+                currentY += dy * 0.15;
+                window.requestAnimationFrame(updateFlashlight);
             }
 
-            if (customCursor) {
-                customCursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
-            }
-            if (flashlightGlow) {
-                flashlightGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
-            }
+            flashlightGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
         };
 
         window.addEventListener('mousemove', (e) => {
@@ -455,31 +463,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!hasMoved) {
                 currentX = targetX;
                 currentY = targetY;
-                if (customCursor) {
-                    customCursor.style.display = 'block';
-                    document.body.classList.add('has-custom-cursor');
-                }
-                if (flashlightGlow) {
-                    flashlightGlow.style.display = 'block';
-                }
+                flashlightGlow.style.display = 'block';
                 hasMoved = true;
             }
 
             if (!isRunning) {
                 isRunning = true;
-                window.requestAnimationFrame(updateCursorAndFlashlight);
-            }
-        });
-
-        // Event delegation for clickable/hoverable elements
-        document.addEventListener('mouseover', (e) => {
-            if (customCursor && e.target.closest('a, button, select, textarea, input, .nav-link, .btn, .project-link, .social-link, .hamburger, [role="button"], .easter-egg-greeting')) {
-                customCursor.classList.add('hover');
-            }
-        });
-        document.addEventListener('mouseout', (e) => {
-            if (customCursor && e.target.closest('a, button, select, textarea, input, .nav-link, .btn, .project-link, .social-link, .hamburger, [role="button"], .easter-egg-greeting')) {
-                customCursor.classList.remove('hover');
+                window.requestAnimationFrame(updateFlashlight);
             }
         });
     }
