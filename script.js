@@ -1,5 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // 0. Initialize Lenis Smooth Scroll
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
     // 1. Mobile Menu Toggle
     const hamburger = document.getElementById('hamburger-toggle');
     const navLinks = document.getElementById('nav-links');
@@ -24,14 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
 
-                    // Calculate offset position (subtracting header height + padding spacing)
-                    const headerOffset = 90;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
+                    lenis.scrollTo(targetElement, {
+                        offset: -90,
+                        duration: 1.2
                     });
                 }
             }
@@ -55,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Dynamic Terminal Typing Effect
     const typingTarget = document.getElementById('typing-target');
-    const fullText = "C:\\Users\\Vishal> run full_stack_dev.exe";
+    const fullText = "C:\\Users\\Vishal> run IOT_Engineer.exe";
     const promptText = "C:\\Users\\Vishal> ";
     let charIndex = 0;
     let isDeleting = false;
@@ -132,9 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', handleBackToTopScroll);
     
     backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+        lenis.scrollTo(0, {
+            duration: 1.2
         });
     });
 
@@ -369,9 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
             const targetScrollY = ratio * scrollHeight;
 
-            window.scrollTo({
-                top: targetScrollY,
-                behavior: 'smooth'
+            lenis.scrollTo(targetScrollY, {
+                duration: 1.2
             });
         });
     }
@@ -401,7 +412,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trackRange <= 0) return;
 
         const scrollDelta = deltaY * (scrollHeight / trackRange);
-        window.scrollTo(0, startScrollY + scrollDelta);
+        lenis.scrollTo(startScrollY + scrollDelta, {
+            immediate: true
+        });
     };
 
     const stopDrag = () => {
@@ -427,50 +440,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('mouseup', stopDrag);
     window.addEventListener('touchend', stopDrag);
-
     // 8 & 11. Optimized Flashlight Glow Tracker
     const flashlightGlow = document.getElementById('flashlight-glow');
     if (window.matchMedia('(pointer: fine)').matches && flashlightGlow) {
         let hasMoved = false;
-        let currentX = 0;
-        let currentY = 0;
-        let targetX = 0;
-        let targetY = 0;
-        let isRunning = false;
-
-        const updateFlashlight = () => {
-            const dx = targetX - currentX;
-            const dy = targetY - currentY;
-
-            // Smooth linear interpolation (lerp) for flashlight trailing feel
-            if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
-                currentX = targetX;
-                currentY = targetY;
-                isRunning = false;
-            } else {
-                currentX += dx * 0.15; // Easing speed factor
-                currentY += dy * 0.15;
-                window.requestAnimationFrame(updateFlashlight);
-            }
-
-            flashlightGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
-        };
 
         window.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-
             if (!hasMoved) {
-                currentX = targetX;
-                currentY = targetY;
                 flashlightGlow.style.display = 'block';
                 hasMoved = true;
             }
-
-            if (!isRunning) {
-                isRunning = true;
-                window.requestAnimationFrame(updateFlashlight);
-            }
+            flashlightGlow.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
         });
     }
 
